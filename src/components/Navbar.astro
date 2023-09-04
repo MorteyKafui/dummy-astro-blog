@@ -1,0 +1,27 @@
+---
+interface NavProps {
+  path: string;
+  label: string;
+}
+
+const navItems: NavProps[] = [
+  { path: "/", label: "Home" },
+  { path: "/about", label: "About" },
+  { path: "/articles", label: "Articles" },
+];
+---
+
+<nav
+  class="text-slate-200 font-semibold flex justify-between items-center gap-10 border-b-orange-200 border-b pb-4 mb-10"
+>
+  <h1 class="text-4xl font-bold text-rose-800">AstroBlog</h1>
+  <ul class="flex justify-between gap-10 items-center text-2xl">
+    {
+      navItems.map(({ path, label }) => (
+        <li>
+          <a href={path}>{label}</a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

@@ -1,0 +1,42 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getCollection } from "astro:content";
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("en-US").format(date);
+
+export const getStaticPaths = async () => {
+  const allArticles = await getCollection("blog");
+
+  return allArticles.map(article => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+};
+
+const { article } = Astro.props;
+const { Content } = await article.render();
+---
+
+<MainLayout>
+  <h1 class="font-bold text-6xl text-orange-300 mb-10 text-center">
+    {article.data.title}
+  </h1>
+
+  <img
+    src={article.data.image}
+    alt={article.data.title}
+    class="rounded-lg mb-5"
+  />
+  <div class="text-slate-200 mb-10 flex items-center gap-10 font-bold text-xl">
+    <small class="text-orange-300 tracking-wider"
+      >Author: {article.data.author}</small
+    >
+    <small class="text-orange-300 tracking-wider"
+      >Published: {article.data.date}</small
+    >
+  </div>
+  <div class="text-slate-200 tracking-wider">
+    <Content />
+  </div>
+</MainLayout>
